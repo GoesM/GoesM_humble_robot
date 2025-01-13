@@ -1,37 +1,27 @@
-import os
-from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, LogInfo
-from launch_ros.actions import Node
-from launch.substitutions import LaunchConfiguration, ThisLaunchFileDir
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
-from launch_ros.descriptions import ComposableNode
+import os
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
+    slam_toolbox_dir = get_package_share_directory('slam_toolbox')
+    slam_toolbox_launch_dir = os.path.join(slam_toolbox_dir, 'launch')
+
+    nav2_dir = get_package_share_directory('nav2_bringup')
+    nav2_launch_dir = os.path.join(nav2_dir, 'launch')
+    
     return LaunchDescription([
-        # 输出信息
-        LogInfo(
-            condition=None,
-            msg="Launching my_bringup..."),
-
-        # 启动slam_toolbox的launch文件
+        # 启动 nav2_bringup rviz_launch
         IncludeLaunchDescription(
-            launch_description_path=os.path.join(
-                get_package_share_directory('slam_toolbox'),
-                'launch', 'online_sync_launch.py'),
-            launch_arguments={}.items()),
-
-        # 启动nav2_bringup的rviz_launch文件
+            PythonLaunchDescriptionSource(
+                os.path.join(nav2_launch_dir, 'nav2_bringup', 'rviz_launch.py')
+            ),
+        ),
+        # 启动 nav2_bringup navigation_launch
         IncludeLaunchDescription(
-            launch_description_path=os.path.join(
-                get_package_share_directory('nav2_bringup'),
-                'launch', 'rviz_launch.py'),
-            launch_arguments={}.items()),
-
-        # 启动nav2_bringup的navigation_launch文件
-        IncludeLaunchDescription(
-            launch_description_path=os.path.join(
-                get_package_share_directory('nav2_bringup'),
-                'launch', 'navigation_launch.py'),
-            launch_arguments={}.items())
+            PythonLaunchDescriptionSource(
+                os.path.join(nav2_launch_dir, 'nav2_bringup', 'navigation_launch.py')
+            ),
+        ),
     ])

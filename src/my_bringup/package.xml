@@ -1,22 +1,31 @@
+<?xml version="1.0"?>
 <package format="2">
   <name>my_bringup</name>
-  <version>0.0.0</version>
-  <description>My custom bringup launch package</description>
-  <maintainer email="your_email@example.com">Your Name</maintainer>
-  <license>Apache License 2.0</license>
+  <version>0.0.1</version>
+  <description>A ROS2 package for robot bringup and launch files</description>
+  <maintainer email="youremail@example.com">Your Name</maintainer>
+  <license>MIT</license>
 
-  <depend>rclpy</depend>
-  <depend>launch</depend>
-  <depend>launch_ros</depend>
+  <!-- ROS 2 dependencies -->
   <depend>slam_toolbox</depend>
   <depend>nav2_bringup</depend>
   <depend>turtlebot3_gazebo</depend>
 
-  <buildtool_depend>ament_python</buildtool_depend>
-
+  <!-- Python dependencies for launch files -->
   <exec_depend>python3</exec_depend>
   <exec_depend>launch</exec_depend>
   <exec_depend>launch_ros</exec_depend>
 
-  <test_depend>pytest</test_depend>
+  <!-- Build dependencies -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <build_depend>ament_cmake_python</build_depend>
+
+  <!-- Test dependencies (if needed) -->
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <!-- If you use ament for Python support -->
+    <build_type>ament_cmake</build_type>
+  </export>
 </package>
